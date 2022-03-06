@@ -1,0 +1,488 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "PMWeb Bookings",
+    "description": "Bookings and guests management",
+    "contact": {
+      "email": "brunojagminferreira@gmail.com"
+    }
+  },
+  "version": "1.0.0",
+  "tags": [
+    {
+      "name": "guests",
+      "description": "Operations about guests"
+    },
+    {
+      "name": "bookings",
+      "description": "Operations about bookings"
+    }
+  ],
+  "paths": {
+    "/api/v1/guests": {
+      "post": {
+        "summary": "Create a guest",
+        "description": "Responsible for creating a guest",
+        "tags": ["guests"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrUpdateGuest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Guest already exists / Invalid input"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Guest"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get all guests",
+        "description": "Responsible for getting all guests",
+        "tags": ["guests"],
+        "responses": {
+          "200": {
+            "description": "OK.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Guest"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/guests/{id}": {
+      "get": {
+        "summary": "Get a guest by ID",
+        "description": "Responsible for getting a guest by ID",
+        "tags": ["guests"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Guest ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Guest"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Guest not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a guest by ID",
+        "description": "Responsible for updating a guest by ID",
+        "tags": ["guests"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Guest ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrUpdateGuest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Guest"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Guest not found"
+          },
+          "500": {
+            "description": "An error has occurred while updating the guest"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a guest by ID",
+        "description": "Responsible for deleting a guest by ID",
+        "tags": ["guests"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Guest ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Guest not found"
+          }
+        }
+      }
+    },
+    "/api/v1/bookings": {
+      "post": {
+        "summary": "Create a booking",
+        "description": "Responsible for creating a booking",
+        "tags": ["bookings"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrUpdateBooking"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Guest not found / Invalid input / The initial date of stay must be after today / The final date of stay must be after the initial date of stay"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Booking"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get all bookings",
+        "description": "Responsible for getting all bookings",
+        "tags": ["bookings"],
+        "responses": {
+          "200": {
+            "description": "OK.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Booking"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/bookings/{id}": {
+      "get": {
+        "summary": "Get a booking by ID",
+        "description": "Responsible for getting a booking by ID",
+        "tags": ["bookings"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Booking ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Booking not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a booking by ID",
+        "description": "Responsible for updating a booking by ID",
+        "tags": ["bookings"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Booking ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrUpdateBooking"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Booking not found / Guest not found / Invalid input / The initial date of stay must be after today / The final date of stay must be after the initial date of stay"
+          },
+          "500": {
+            "description": "An error has occurred while updating the booking"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a booking by ID",
+        "description": "Responsible for deleting a booking by ID",
+        "tags": ["bookings"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Booking ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "400": {
+            "description": "Booking not found"
+          }
+        }
+      }
+    },
+    "/api/v1/bookings/guest/{id}": {
+      "get": {
+        "summary": "Get all bookings by guest ID",
+        "description": "Responsible for getting all bookings by guest ID",
+        "tags": ["bookings"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Guest ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Booking"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Guest not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateOrUpdateGuest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "johndoe@gmail.com"
+          },
+          "phone": {
+            "type": "string",
+            "pattern": "/([0-9]{2,3})?([0-9]{2})([0-9]{4,5})([0-9]{4})/",
+            "example": "11999999999"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date",
+            "example": "1996-10-27"
+          },
+          "city": {
+            "type": "string",
+            "example": "Gramado"
+          },
+          "state": {
+            "type": "string",
+            "example": "RS"
+          },
+          "country": {
+            "type": "string",
+            "example": "Brazil"
+          }
+        }
+      },
+      "Guest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/CreateOrUpdateGuest"
+          },
+          {
+            "properties": {
+              "_id": {
+                "type": "string"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2022-03-02T01:55:43.458Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2022-03-02T01:55:43.458Z"
+              }
+            }
+          }
+        ]
+      },
+      "CreateOrUpdateBooking": {
+        "type": "object",
+        "properties": {
+          "hotel": {
+            "type": "string",
+            "example": "Hotel 1"
+          },
+          "room": {
+            "type": "number",
+            "example": 100
+          },
+          "bookingValue": {
+            "type": "number",
+            "example": 1500
+          },
+          "stayInitialDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2020-01-01"
+          },
+          "stayFinalDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2020-01-02"
+          },
+          "guest": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "example": "confirmed"
+          }
+        }
+      },
+      "Booking": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/CreateOrUpdateBooking"
+          },
+          {
+            "properties": {
+              "_id": {
+                "type": "string"
+              },
+              "guest": {
+                "$ref": "#/components/schemas/Guest"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2022-03-02T01:55:43.458Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2022-03-02T01:55:43.458Z"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}
